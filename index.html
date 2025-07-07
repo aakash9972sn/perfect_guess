@@ -344,14 +344,6 @@
             guessInput.focus();
         }
 
-        // Show hint with animation
-        function showHint(message, type) {
-            hintContainer.innerHTML = '';
-            const hintElement = document.createElement('div');
-            hintElement.className = `hint ${type}`;
-            hintElement.textContent = message;
-            hintContainer.appendChild(hintElement);
-        }
 
         // Update attempt history
         function updateHistory() {
