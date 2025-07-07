@@ -1,13 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Guess the Number Game</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guess the Number</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .game-container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      width: 60%;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <h2>Guess a number between 1 and 100</h2>
-  <input type="number" id="guess">
-  <button onclick="checkGuess()">Submit</button>
-  <p id="output"></p>
+  <div class="game-container">
+    <h2>🎯 Guess a number between 1 and 100</h2>
+    <input type="number" id="guess" placeholder="Enter your guess" />
+    <br>
+    <button onclick="checkGuess()">Submit</button>
+    <p id="output"></p>
+  </div>
 
   <script>
     let number = Math.floor(Math.random() * 100) + 1;
@@ -15,17 +76,25 @@
 
     function checkGuess() {
       const userGuess = parseInt(document.getElementById("guess").value);
+      const output = document.getElementById("output");
+
+      if (isNaN(userGuess)) {
+        output.textContent = "Please enter a valid number!";
+        return;
+      }
+
       attempts++;
-      let output = document.getElementById("output");
 
       if (userGuess > number) {
-        output.innerText = "Lower number please!";
+        output.textContent = "📉 Lower number please!";
       } else if (userGuess < number) {
-        output.innerText = "Higher number please!";
+        output.textContent = "📈 Higher number please!";
       } else {
-        output.innerText = `Correct! You guessed in ${attempts} attempts.`;
+        output.innerHTML = `🎉 Correct! You guessed it in <strong>${attempts}</strong> attempts.`;
+        document.querySelector("button").disabled = true;
       }
     }
   </script>
 </body>
 </html>
+ml>
