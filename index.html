@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfect Guess Game</title>
+    <title>Pure Guess Game</title>
     <style>
         :root {
             --primary: #3a86ff;
@@ -212,6 +212,11 @@
             font-size: 0.9rem;
         }
 
+        .correct-attempt {
+            color: var(--success);
+            font-weight: bold;
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 1.5rem;
@@ -253,7 +258,7 @@
         </div>
         
         <div id="hint-container">
-            <!-- Hints will appear here -->
+            <div class="hint higher">Guess a number between 1 and 1000</div>
         </div>
         
         <div class="attempt-history" id="history-container">
@@ -315,7 +320,8 @@
             // Add to history
             history.unshift({
                 guess: userGuess,
-                attempt: attempts
+                attempt: attempts,
+                isCorrect: userGuess === targetNumber
             });
             updateHistory();
             
@@ -344,7 +350,7 @@
             guessInput.focus();
         }
 
-                // Show hint with animation
+        // Show hint with animation
         function showHint(message, type) {
             hintContainer.innerHTML = '';
             const hintElement = document.createElement('div');
@@ -359,21 +365,21 @@
             
             history.forEach(item => {
                 const attemptItem = document.createElement('div');
-                attemptItem.className = 'attempt-item';
+                attemptItem.className = item.isCorrect ? 'attempt-item correct-attempt' : 'attempt-item';
                 
                 const guessSpan = document.createElement('span');
-                guessSpan.textContent = `#${item.attempt}: ${item.guess}`;
+                guessSpan.textContent = `Attempt ${item.attempt}: ${item.guess}`;
                 
-                const differenceSpan = document.createElement('span');
-                const difference = Math.abs(targetNumber - item.guess);
-                
-                if (item.guess === targetNumber) {
-                    differenceSpan.textContent = '✅ Correct';
-                    differenceSpan.style.color = 'var(--success)';
+                const resultSpan = document.createElement('span');
+                if (item.isCorrect) {
+                    resultSpan.textContent = '✅ Correct';
+                } else {
+                    resultSpan.textContent = item.guess < targetNumber ? '↑ Higher' : '↓ Lower';
+                    resultSpan.style.color = item.guess < targetNumber ? 'var(--success)' : '#ff6a00';
                 }
                 
                 attemptItem.appendChild(guessSpan);
-                attemptItem.appendChild(differenceSpan);
+                attemptItem.appendChild(resultSpan);
                 historyContainer.appendChild(attemptItem);
             });
         }
@@ -384,14 +390,11 @@
             attempts = 0;
             history = [];
             attemptsDisplay.textContent = attempts;
-            hintContainer.innerHTML = '<div class="hint">Guess a number between 1 and 1000</div>';
+            hintContainer.innerHTML = '<div class="hint higher">Guess a number between 1 and 1000</div>';
             historyContainer.innerHTML = '';
             submitBtn.disabled = false;
             guessInput.focus();
         }
-
-        // Initial hint
-        showHint("Guess a number between 1 and 1000", "higher");
     </script>
 </body>
 </html>
