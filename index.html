@@ -335,6 +335,7 @@
                 if (!bestScore || attempts < bestScore) {
                     bestScore = attempts;
                     localStorage.setItem('bestScore', bestScore);
+                    window.AakashAccount?.bestGuess(Number(bestScore));
                     bestScoreDisplay.textContent = bestScore;
                 }
             } 
@@ -396,5 +397,7 @@
             guessInput.focus();
         }
     </script>
-</body>
+<script src="hosted-ai.js?v=20261120-1"></script>
+<script src="firebase-account.js?v=20261120-1" defer></script>
+<script src="ai-config.js?v=20261120-hosted1"></script><script src="ai-assistant.js?v=20261120-hosted1" defer></script></body>
 </html>
